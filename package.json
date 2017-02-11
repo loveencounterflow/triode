@@ -1,0 +1,35 @@
+{
+  "name": "triode",
+  "version": "0.0.0",
+  "description": "a JavaScript P(lain) O(ld) D(ictionary) with element access by prefixes, implemented with a trie",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "coffee --map -o lib -c src",
+    "doctoc": "doctoc README.md",
+    "test": "npm run build && tap lib/tests/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loveencounterflow/triode.git"
+  },
+  "keywords": [
+    "trie",
+    "object",
+    "pod",
+    "dictionary",
+    "prefix"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/loveencounterflow/triode/issues"
+  },
+  "homepage": "https://github.com/loveencounterflow/triode",
+  "dependencies": {
+    "cnd": "^4.2.0",
+    "mnemonist": "^0.10.1"
+  },
+  "devDependencies": {
+    "tap": "^8.0.1"
+  }
+}
