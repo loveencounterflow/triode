@@ -36,29 +36,4 @@ MNEMONIST                 = require 'mnemonist'
   #.........................................................................................................
   return new Proxy store, { get, set, deleteProperty, }
 
-words = [
-  '33333333'
-  '306ca2f7994a35eef-460-jpg'
-  '00d59e245c257deb6-445-jpg'
-  ]
-
-r = @new()
-for word, idx in words
-  r[ word ] = { word, idx, }
-
-try
-  info '1', r[ '3' ]
-catch error then warn error[ 'message' ]
-info '2', r[ '30' ]
-info '3', r[ '00d59' ]
-info '4', r[ 'ffffffff' ]
-delete r[ '00d59' ]
-help r
-info '5', r[ '00d59' ]
-try
-  delete r[ '3' ]
-catch error then warn error[ 'message' ]
-help r
-info '6', r[ '00d59' ]
-
 
