@@ -6,4 +6,6 @@ a JavaScript P(lain) O(ld) D(ictionary) with element access by prefixes, impleme
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Dubulttriode_darbiibaa.jpg/364px-Dubulttriode_darbiibaa.jpg)
 
+<img width=100 src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Dubulttriode_darbiibaa.jpg/364px-Dubulttriode_darbiibaa.jpg'>
+
 
