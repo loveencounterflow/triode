@@ -20,6 +20,7 @@ TAP.test "incipient", ( T ) ->
     '33333333'
     '306ca2f7994a35eef-460-jpg'
     '00d59e245c257deb6-445-jpg'
+    '12345678'
     ]
 
   triode = TRIODE.new()
@@ -31,6 +32,7 @@ TAP.test "incipient", ( T ) ->
   catch error then warn error[ 'message' ]
   T.ok CND.equals triode[ '30' ], { word: '306ca2f7994a35eef-460-jpg', idx: 1 }
   T.ok CND.equals triode[ '00d59' ], { word: '00d59e245c257deb6-445-jpg', idx: 2 }
+  T.ok CND.equals triode[ '123' ], { word: '12345678', idx: 3 }
   T.ok CND.equals triode[ 'ffffffff' ], undefined
   delete triode[ '00d59' ]
   help triode
