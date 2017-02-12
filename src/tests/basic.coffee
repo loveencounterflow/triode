@@ -15,6 +15,34 @@ TRIODE                    = require '../..'
 
 
 #-----------------------------------------------------------------------------------------------------------
+TAP.test "demo", ( T ) ->
+  TRIODE = require '../..'
+  triode = TRIODE.new()
+  triode[ 'aluminum'    ] = { word: 'aluminum', text: 'a metal', }
+  triode[ 'aluminium'   ] = { word: 'aluminium', text: 'a metal', }
+  triode[ 'alumni'      ] = { word: 'alumni', text: 'a former student', }
+  triode[ 'alphabet'    ] = { word: 'alphabet', text: 'a kind of writing system', }
+  triode[ 'abacus'      ] = { word: 'abacus', text: 'a manual calculator', }
+
+  try
+    triode[ 'alu' ]
+  catch error
+    ### unspecific prefix 'a' ###
+    warn error[ 'message' ]
+
+  ### { word: 'alumni', text: 'a former student' } ###
+  info triode[ 'alumn' ]
+
+  ### { word: 'alphabet', text: 'a kind of writing system' } ###
+  info triode[ 'alp' ]
+
+  delete triode[ 'alp' ]
+  ### undefined ###
+  info triode[ 'alp' ]
+
+  T.end()
+
+#-----------------------------------------------------------------------------------------------------------
 TAP.test "incipient", ( T ) ->
   words = [
     '33333333'
