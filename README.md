@@ -21,10 +21,10 @@ triode[ 'alumni'      ] = { word: 'alumni', text: '02 a former student', }
 triode[ 'alphabet'    ] = { word: 'alphabet', text: '03 a kind of writing system', }
 triode[ 'abacus'      ] = { word: 'abacus', text: '01 a manual calculator', }
 
-### ...then retrieving pseudo-key 'alu' ...
+# ...then retrieving pseudo-key 'alu' ...
 triode[ 'alu' ]
 
-### ...will return this list of matches, sorted by the 'text' attribute:
+# ...will return this list of matches, sorted by the 'text' attribute:
 [ [ 'alumni',     { 'word': 'alumni',     'text': '02 a former student', }, ],
   [ 'aluminium',  { 'word': 'aluminium',  'text': '04 a metal',          }, ],
   [ 'aluminum',   { 'word': 'aluminum',   'text': '05 a metal',          }, ] ]
