@@ -10,30 +10,37 @@ help                      = CND.get_logger 'help',      badge
 warn                      = CND.get_logger 'warn',      badge
 echo                      = CND.echo.bind CND
 #...........................................................................................................
-MNEMONIST                 = require 'mnemonist'
-Σ_missing                 = Symbol 'missing'
-# Trie                      = require 'mnemonist/trie'
+TrieMap                   = require 'mnemonist/trie-map'
 
 
 #-----------------------------------------------------------------------------------------------------------
-@new = ->
-  trie  = new MNEMONIST.Trie()
-  store = {}
+@new = ( settings ) ->
+  trie  = new TrieMap()
+  do_sort  = null
+  if ( do_sort = settings?.sort )?
+    if do_sort is false
+      null
+    else if do_sort is true
+      sort_method = ( a, b ) ->
+        return -1 if a[ 0 ] < b[ 0 ]
+        return +1 if a[ 0 ] > b[ 0 ]
+        return 0
+    else if ( CND.isa_text do_sort )
+      sort_method = ( a, b ) ->
+        return -1 if a[ 1 ][ do_sort ] < b[ 1 ][ do_sort ]
+        return +1 if a[ 1 ][ do_sort ] > b[ 1 ][ do_sort ]
+        return 0
+    else
+      throw new Error "µ39833 expected a text or a boolean, got a #{CND.type_of do_sort}"
   #.........................................................................................................
-  resolve = ( prefix ) ->
-    keys = trie.get prefix
-    return Σ_missing if keys.length is 0
-    throw new Error "unspecific prefix #{rpr prefix}" if keys.length isnt 1
-    return keys[ 0 ]
+  get = ( _, prefix ) =>
+    R = trie.find prefix
+    R.sort sort_method if sort_method?
+    return R
   #.........................................................................................................
-  set = ( _, key, value ) =>
-    trie.add key
-    return store[ key ] = value
+  set             = ( _, key, value ) -> trie.set key, value
+  deleteProperty  = ( _, key        ) -> trie.delete key
   #.........................................................................................................
-  get = ( _, prefix ) => store[ resolve prefix ]
-  #.........................................................................................................
-  deleteProperty = ( _, prefix ) -> delete store[ resolve prefix ]
-  #.........................................................................................................
-  return new Proxy store, { get, set, deleteProperty, }
+  return new Proxy trie, { get, set, deleteProperty, }
 
 
