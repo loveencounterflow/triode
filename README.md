@@ -14,7 +14,7 @@ Example:
 
 ```coffee
 # when initialized as ...
-triode = TRIODE.new { sort: true, }
+triode = TRIODE.new { sort: 'text', }
 triode[ 'aluminum'    ] = { word: 'aluminum',   text: '05 a metal',                  }
 triode[ 'aluminium'   ] = { word: 'aluminium',  text: '04 a metal',                  }
 triode[ 'alumni'      ] = { word: 'alumni',     text: '02 a former student',         }
