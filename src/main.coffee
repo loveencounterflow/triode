@@ -15,8 +15,8 @@ TrieMap                   = require 'mnemonist/trie-map'
 
 #-----------------------------------------------------------------------------------------------------------
 @new = ( settings ) ->
-  trie  = new TrieMap()
-  do_sort  = null
+  trie      = new TrieMap()
+  do_sort   = null
   if ( do_sort = settings?.sort )?
     if do_sort is false
       null
@@ -33,14 +33,14 @@ TrieMap                   = require 'mnemonist/trie-map'
     else
       throw new Error "µ39833 expected a text or a boolean, got a #{CND.type_of do_sort}"
   #.........................................................................................................
-  get = ( _, prefix ) =>
+  find = ( prefix ) =>
     R = trie.find prefix
     R.sort sort_method if sort_method?
     return R
   #.........................................................................................................
-  set             = ( _, key, value ) -> trie.set key, value
-  deleteProperty  = ( _, key        ) -> trie.delete key
+  set     = ( key, value ) -> trie.set key, value
+  delete_ = ( key        ) -> trie.delete key
   #.........................................................................................................
-  return new Proxy trie, { get, set, deleteProperty, }
+  return { find, set, delete: delete_, }
 
 

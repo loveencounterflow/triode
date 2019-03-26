@@ -6,23 +6,23 @@
 A thin wrapper for [`mnemonist/trie-map`](https://yomguithereal.github.io/mnemonist/trie-map); it uses a JS
 Proxy to provide a dictionary-like interface and a convenient way to sort result sets.
 
-TRIODE objects allow to associate keys to arbitrary values with the `t[ k ] = v` syntax, where `k` is an
-'index key', and to retrieve all matching entries (pairs `[ k, v ]`) with the `r = t[ p ]` syntax, where `p`
-is a 'pseudo-' or 'prefix-key' that is tested against the first characters of all index keys.
+TRIODE objects allow to associate keys to arbitrary values with `t.set( k, v )`, where `k` is an 'index
+key', and to retrieve all matching entries (pairs `[ k, v ]`) with `r = t.find( p )`, where `p` is a
+'pseudo-' or 'prefix-key' that is tested against the first characters of all index keys.
 
 Example:
 
 ```coffee
 # when initialized as ...
-triode = TRIODE.new { sort: 'text', }
-triode[ 'aluminum'    ] = { word: 'aluminum',   text: '05 a metal',                  }
-triode[ 'aluminium'   ] = { word: 'aluminium',  text: '04 a metal',                  }
-triode[ 'alumni'      ] = { word: 'alumni',     text: '02 a former student',         }
-triode[ 'alphabet'    ] = { word: 'alphabet',   text: '03 a kind of writing system', }
-triode[ 'abacus'      ] = { word: 'abacus',     text: '01 a manual calculator',      }
+triode = TRIODE.new { sort: 'textio', }
+triode.set 'aluminum', 	{ word: 'aluminum',   text: '05 a metal',                  }
+triode.set 'aluminium',	{ word: 'aluminium',  text: '04 a metal',                  }
+triode.set 'alumni',   	{ word: 'alumni',     text: '02 a former student',         }
+triode.set 'alphabet', 	{ word: 'alphabet',   text: '03 a kind of writing system', }
+triode.set 'abacus',   	{ word: 'abacus',     text: '01 a manual calculator',      }
 
 # ...then retrieving pseudo-key 'alu' ...
-triode[ 'alu' ]
+triode.find 'alu'
 
 # ...will return this list of matches, sorted by the 'text' attribute:
 [ [ 'alumni',     { word: 'alumni',     text: '02 a former student', }, ],
