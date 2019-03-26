@@ -48,7 +48,7 @@ TrieMap                   = require 'mnemonist/trie-map'
       else
         throw new Error "µ57633 expected a text or a boolean, got a #{CND.type_of do_sort}"
     #.......................................................................................................
-    @find = ( prefix ) =>
+    @find = ( prefix ) ->
       R = trie.find prefix
       R.sort sort_method if sort_method?
       return R
@@ -127,7 +127,7 @@ TrieMap                   = require 'mnemonist/trie-map'
       @set new_key, value
       return null
     #.......................................................................................................
-    @replacements_as_js_function_text = ( name ) ->
+    @replacements_as_js_function_text = ->
       if ( subkeys = Object.keys @get_all_superkeys() ).length > 0
         throw new Error "µ61806 must first resolve subkeys #{rpr subkeys}"
       #.....................................................................................................
@@ -140,10 +140,10 @@ TrieMap                   = require 'mnemonist/trie-map'
       R.push "  return R; };\n"
       return R.join '\n'
     #.......................................................................................................
-    @replacements_as_js_function = ( name ) -> eval @replacements_as_js_function_text name
+    @replacements_as_js_function = -> eval @replacements_as_js_function_text()
     #.......................................................................................................
     @replacements_as_js_module_text = ( name ) ->
-      source      = @replacements_as_js_function_text name
+      source      = @replacements_as_js_function_text()
       { first_line
         source }  = ( source.match /^(?<first_line>[^\n]+)\n(?<source>.*)$/ms ).groups
       R = []

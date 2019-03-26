@@ -182,6 +182,7 @@ TRIODE                    = require '../..'
   debug 'µ76777-17', replacer 'n'
   debug 'µ76777-17', replacer 'v.'
   debug 'µ76777-17', replacer 'va'
+  debug 'µ76777-6', triode.superkeys_from_key 'v.'
   # debug 'µ76777-22', triode
   done()
   return null
