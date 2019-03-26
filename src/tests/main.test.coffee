@@ -88,13 +88,100 @@ TRIODE                    = require '../..'
   done()
   return null
 
+#-----------------------------------------------------------------------------------------------------------
+@[ "prefixes by length" ] = ( T, done ) ->
+  triode = TRIODE.new { sort: true, }
+  triode.set 'q',   'っ'
+  triode.set 'n',   'ん'
+  triode.set 'v',   'ゔ'
+  triode.set 'va',  'ゔぁ'
+  triode.set 'vi',  'ゔぃ'
+  triode.set 'vu',  'ゔぅ'
+  triode.set 've',  'ゔぇ'
+  triode.set 'vo',  'ゔぉ'
+  triode.set 'na',  'な'
+  triode.set 'ne',  'ね'
+  triode.set 'ni',  'に'
+  triode.set 'no',  'の'
+  triode.set 'nu',  'ぬ'
+  triode.set 'ya',  'や'
+  triode.set 'yo',  'よ'
+  triode.set 'yu',  'ゆ'
+  triode.set 'nya', 'にゃ'
+  triode.set 'nyo', 'にょ'
+  triode.set 'nyu', 'にゅ'
+  #.........................................................................................................
+  probes_and_matchers = [
+    [["get_keys_sorted_by_length",[]],["v","n","q","yu","yo","ya","vo","ve","vu","vi","va","nu","no","ni","ne","na","nyu","nyo","nya"],null]
+    [["get_longer_keys",["n"]],["yu","yo","ya","vo","ve","vu","vi","va","nu","no","ni","ne","na","nyu","nyo","nya"],null]
+    # [ ['get_keys_sorted_by_length', []       ], [ 'v', 'n', 'q', 'yu', 'yo', 'ya', 'nu', 'no', 'ni', 'ne', 'na', 'nyu', 'nyo', 'nya' ],null]
+    # [ ['get_longer_keys',           [ 'n'  ] ], [ 'yu', 'yo', 'ya', 'nu', 'no', 'ni', 'ne', 'na', 'nyu', 'nyo', 'nya' ],null]
+    [ ['get_longer_keys',           [ 'na' ] ], [ 'nyu', 'nyo', 'nya' ],null]
+    [ ['superkeys_from_key',     [ 'n'  ] ], [ 'nu', 'no', 'ni', 'ne', 'na', 'nyu', 'nyo', 'nya' ],null]
+    [ ['superkeys_from_key',     [ 'v'  ] ], [ 'vo', 've', 'vu', 'vi', 'va' ],null]
+    [ ['get_all_superkeys',         []       ], { v: [ 'vo', 've', 'vu', 'vi', 'va' ], n: [ 'nu', 'no', 'ni', 'ne', 'na', 'nyu', 'nyo', 'nya' ] },null]
+    ]
+  #.........................................................................................................
+  for [ probe, matcher, error, ] in probes_and_matchers
+    await T.perform probe, matcher, error, -> return new Promise ( resolve, reject ) ->
+      [ method_name, P, ] = probe
+      result = triode[ method_name ] P...
+      resolve result
+  #.........................................................................................................
+  done()
+  return null
+
+
+
+#-----------------------------------------------------------------------------------------------------------
+@[ "_ demo" ] = ( T, done ) ->
+  triode = TRIODE.new { sort: true, }
+  triode.set 'q',   'っ'
+  triode.set 'n',   'ん'
+  triode.set 'v',   'ゔ'
+  triode.set 'va',  'ゔぁ'
+  triode.set 'vi',  'ゔぃ'
+  triode.set 'vu',  'ゔぅ'
+  triode.set 've',  'ゔぇ'
+  triode.set 'vo',  'ゔぉ'
+  triode.set 'na',  'な'
+  triode.set 'ne',  'ね'
+  triode.set 'ni',  'に'
+  triode.set 'no',  'の'
+  triode.set 'nu',  'ぬ'
+  triode.set 'ya',  'や'
+  triode.set 'yo',  'よ'
+  triode.set 'yu',  'ゆ'
+  triode.set 'nya', 'にゃ'
+  triode.set 'nyo', 'にょ'
+  triode.set 'nyu', 'にゅ'
+  debug 'µ76777-1', triode
+  debug 'µ76777-2', triode.get_keys_sorted_by_length()
+  debug 'µ76777-3', triode.get_longer_keys 'n'
+  # debug 'µ76777-4', triode.get_longer_keys 'na'
+  debug 'µ76777-5', triode.superkeys_from_key 'n'
+  debug 'µ76777-6', triode.superkeys_from_key 'v'
+  debug 'µ76777-7', triode.get_all_superkeys()
+  debug 'µ76777-8', triode.disambiguate_subkey 'n', 'n.'
+  debug 'µ76777-9', triode
+  # debug 'µ76777-10', triode.superkeys_from_key 'n'
+  debug 'µ76777-11', triode.superkeys_from_key 'n.'
+  debug 'µ76777-12', triode.has 'n'
+  debug 'µ76777-13', triode.has 'n.'
+  # debug 'µ76777-14', triode.disambiguate_subkey 'n.', 'v'
+  # debug 'µ76777-15', triode.disambiguate_subkey 'a', 'n.'
+  debug 'µ76777-8', triode.disambiguate_subkey 'v', 'v.'
+  debug 'µ76777-16', triode.get_all_superkeys()
+  done()
+  return null
+
 
 ############################################################################################################
 unless module.parent?
-  # test @
+  test @
   # test @[ "selector keypatterns" ]
   # test @[ "select 2" ]
-  test @[ "basic" ]
+  # test @[ "_ demo" ]
 
 
 
