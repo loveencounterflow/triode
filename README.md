@@ -148,16 +148,13 @@ Now, while it may seem that the aformentioned method of just fixing the superkey
 in fact has a serious drawback, because when you take the above translation table and apply recursive
 replacements to it, some Kana combinations remain in fact unwritable:
 
-| x     | x       | x     | x                 | x  | x  |
-|:------|:--------|:------|:------------------|:---|:---|
-| sanyo | sa’nyō  | さにょう  | x                 | x  | x  |
-| sanyo | san’yō  | さんよう  | (山陽, 算用, ...)     | x  | x  |
-| sannyo | san’nyō | さんにょう | (sec. form of 算用) | x  | x  |
-| x     | x       | x     | x                 | x  | x  |
 
-*
-*
-*
+| transcription | translit. 1 | translit. 2 | expected   | output     | input  | interpretation    |
+|:--------------|:------------|:------------|:------     |:---        |:---    |:----------------|
+| sanyo         | sa’nyō      | sanyō       | さにょう   | さにょう   | sanyo  | ?               |
+| sanyo         | san’yō      | saɴyō       | さんよう   | さにょう❎ | sanyo  |  山陽, 算用, ...     |
+| sannyo        | san’nyō     | saɴnyō      | さんにょう | さんにょう | sannyo | sec. form of 算用 |
+| sanki         | sanki       | saɴki       | さんき     | さんき     | sanki  | 山気, 三機          |
 
 
 
