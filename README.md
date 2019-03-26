@@ -73,6 +73,7 @@ To obtain the above function (or its source code), we use `triode`:
 
 ```coffee
 triode = TRIODE.new()
+# order does not matter for the `set()` calls:
 triode.set 'nya', 'にゃ'
 triode.set 'nyu', 'にゅ'
 triode.set 'nyo', 'にょ'
@@ -86,8 +87,69 @@ triode.set 'ni',  'に'
 triode.set 'nu',  'ぬ'
 triode.set 'ne',  'ね'
 triode.set 'no',  'の'
-...
+kb = triode.replacements_as_js_function()
+# and now we can use `kb()` to replace from `'ki'` to `'き'` and so on:
+current_line = kb current_line
 ```
+
+So far, triode has done very little: it only sorted the keys from longest to shortest, built the source
+code and `eval()`ed it. However, it can do a little more, for example, assist in finding and resolving
+ambiguities in the key definitions.
+
+The problem starts when we want to add 'ん' to our table. This is the so-called 'moraic nasal' of Japanese,
+and it's commonly transcribed as `n`, `m` or `ɴ` (in linguistic texts), so it would be natural to include it
+as `n` in our keyboard definition: `triode.set 'n', 'ん'`. But this creates a problem: `n` is now the key to
+a replacement rule *and* the prefix to a number of other replacements, such as `na ⇒ な`, `nyo ⇒ にょ` and so
+on. This means when we perform replacements after each keystroke, and we want to write 'な' (`na`), then we
+have to first hit `n`, which gets turned into 'ん', and then `a`:
+
+```
+[n]   ⇒ ん
+ん[a] ⇒ んa
+```
+
+It turns out that we can never reach the point where the `na ⇒ な` rule becomes active because a prefix of
+its key is also used for another replacement.
+
+The least that `triode` can do for you is to search for and list all the 'keys that are prefixes for other
+keys' (more memorably called sub- and superkeys from here on). At this point, when you call
+`triode.get_all_superkeys()`, you will get a (possibly empty) object with sub- and superkeys:
+
+```coffee
+triode.get_all_superkeys()
+# returns `{ n: [ 'na', 'ne', 'ni', 'no', 'nu', 'nya', 'nyo', 'nyu' ] }`
+```
+
+What's more, there's not only a way to detect these kinds of problems, there's also ways to resolve
+them, primarily through two methods:
+
+* **`triode.disambiguate_subkey = ( old_key, new_key ) ->`** Using this method you could use some heretofore
+  unused sequence of letters to replace the ambiguous one; for example, there's hardly a use for letter `x`
+  when transliterating Kana, so you might `triode.replace 'n', 'x'`. Chances are you want to do that
+  replacement in the translation table rather than fix it later.
+
+  But there's another option: use a disambiguating extra key as a prefix or suffix, e.g. `triode.replace
+  'n', 'n.'` to allow users to type `[n]`, `[period]` to get 'ん'. One can imagine this to become a user
+  setting, so it makes sense to employ the API to dynamically change it; some users might not want the
+  period to interfere with punctuation input, so then they can use some other key for the purpose.
+
+  The advantage in using `triode.disambiguate_subkey()` over `triode.replace()` is that the former checks
+  that the old key is indeed ambiguous, that the new key is free and will not introduce new ambiguities and
+  so forth to keep you from making an unusable translation table.
+
+* **`triode.apply_replacements_recursively = ( key ) ->`** There's yet another way to deal with sub- and
+  superkeys, and that is to change the replacement expressions. Above, we have seen that after `n ⇒ ん` has
+  been performed and key `a` is then hit, we have `んa` in the text input so rule `na ⇒ な` can never fire.
+  *But* what if we rewrote that rule as `んa ⇒ な`? This is exactly what `apply_replacements_recursively()`
+  does: given a subkey, it will rewrite all superkeys such that they start with the subkeys (`n` in our
+  case) value (i.e. `ん`).
+
+
+<!-- * sanyo sa’nyō さにょう
+* sanyo san’yō さんよう (山陽, 算用, ...)
+* sanyo san’nyō さんにょう (sec. form of 算用)
+ -->
+
 
 ## API
 
