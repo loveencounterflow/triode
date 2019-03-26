@@ -111,7 +111,7 @@ have to first hit `n`, which gets turned into 'ん', and then `a`:
 It turns out that we can never reach the point where the `na ⇒ な` rule becomes active because a prefix of
 its key is also used for another replacement.
 
-The least that `triode` can do for you is to search for and list all the 'keys that are prefixes for other
+The least that `triode` can do for you is to search for and list all the 'keys that are prefixes of other
 keys' (more memorably called sub- and superkeys from here on). At this point, when you call
 `triode.get_all_superkeys()`, you will get a (possibly empty) object with sub- and superkeys:
 
@@ -144,11 +144,21 @@ them, primarily through two methods:
   does: given a subkey, it will rewrite all superkeys such that they start with the subkeys (`n` in our
   case) value (i.e. `ん`).
 
+Now, while it may seem that the aformentioned method of just fixing the superkeys solves all problems, this
+in fact has a serious drawback, because when you take the above translation table and apply recursive
+replacements to it, some Kana combinations remain in fact unwritable:
 
-<!-- * sanyo sa’nyō さにょう
-* sanyo san’yō さんよう (山陽, 算用, ...)
-* sanyo san’nyō さんにょう (sec. form of 算用)
- -->
+| x     | x       | x     | x                 | x  | x  |
+|:------|:--------|:------|:------------------|:---|:---|
+| sanyo | sa’nyō  | さにょう  | x                 | x  | x  |
+| sanyo | san’yō  | さんよう  | (山陽, 算用, ...)     | x  | x  |
+| sannyo | san’nyō | さんにょう | (sec. form of 算用) | x  | x  |
+| x     | x       | x     | x                 | x  | x  |
+
+*
+*
+*
+
 
 
 ## API
