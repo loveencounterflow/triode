@@ -156,6 +156,12 @@ replacements to it, some Kana combinations remain in fact unwritable:
 | sannyo        | san’nyō     | saɴnyō      | さんにょう | さんにょう | sannyo | sec. form of 算用 |
 | sanki         | sanki       | saɴki       | さんき     | さんき     | sanki  | 山気, 三機          |
 
+As the table shows, what careful translation systems achieve but 'broad' transcriptions (and, sadly, our
+homebrew keyboard map) miss is the fine, yet decisive distinction between -にょ- (nasal-iodized onset of a
+syllable) and -んよ- (nasal final of one syllable, iodized onset of the next); other combinations like the
+-んき- shown here work fine. There may be situations where this state of affairs is OK but this is clearly not
+one of them; for this reason, disambiguation with prefixes or suffixes or replacements for the troublesome
+transliteration key is superior.
 
 
 ## API
