@@ -10,6 +10,7 @@ help                      = CND.get_logger 'help',      badge
 warn                      = CND.get_logger 'warn',      badge
 echo                      = CND.echo.bind CND
 #...........................................................................................................
+{ jr, }                   = CND
 TrieMap                   = require 'mnemonist/trie-map'
 
 
@@ -160,9 +161,9 @@ TrieMap                   = require 'mnemonist/trie-map'
       #.....................................................................................................
       R = []
       R.push "() => {"
-      R.push "  R = ( require 'triode' ).new();"
+      R.push "  R = require( 'triode' ).new();"
       for [ key, value, ] from @entries()
-        R.push "  R.set( #{rpr key}, #{rpr value} );"
+        R.push "  R.set( #{jr key}, #{jr value} );"
       R.push "  return R; };\n"
       return R.join '\n'
     #.......................................................................................................
