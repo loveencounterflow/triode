@@ -152,7 +152,33 @@ TrieMap                   = require 'mnemonist/trie-map'
       R.push ""
       R.push "module.exports = #{first_line}"
       R.push source
-      R.concat source
+      return R.join '\n'
+    #.......................................................................................................
+    @toString = -> @as_js_function_text()
+    #.......................................................................................................
+    @as_js_function_text = ->
+      #.....................................................................................................
+      R = []
+      R.push "=> {"
+      R.push "  R = ( require 'triode' ).new();"
+      for [ key, value, ] from @entries()
+        R.push "  R.set( #{rpr key}, #{rpr value} );"
+      R.push "  return R; };\n"
+      return R.join '\n'
+    #.......................................................................................................
+    @as_js_function = -> ( eval @as_js_function_text() )()
+    #.......................................................................................................
+    @as_js_module_text = ( name ) ->
+      source      = @as_js_function_text()
+      { first_line
+        source }  = ( source.match /^(?<first_line>[^\n]+)\n(?<source>.*)$/ms ).groups
+      R = []
+      R.push "// Generated code, do not edit;"
+      R.push "// edit #{rpr name} instead and re-generate."
+      R.push ""
+      R.push "const f = #{first_line};"
+      R.push source
+      R.push "module.exports = f();\n"
       return R.join '\n'
     #.......................................................................................................
     return @
