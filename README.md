@@ -163,6 +163,8 @@ syllable) and -んよ- (nasal final of one syllable, iodized onset of the next);
 one of them; for this reason, disambiguation with prefixes or suffixes or replacements for the troublesome
 transliteration key is superior.
 
+**Note** In order to serialize a triode, use `triode.as_js_module_text()` or `triode.as_js_function_text()`.
+These methods do not validate the data structure in any way.
 
 ## API
 
@@ -225,4 +227,15 @@ transliteration key is superior.
 * **`@replacements_as_js_module_text = ( name ) ->`** Same as `replacements_as_js_function()`, but wrapped
   as a CommonJS module; when written to a file `keyboard.js`, then `kb = require 'keyboard.js'` will return
   the replacement function described above.
+
+* **`@toString = ->`** Same as `as_js_function_text()`.
+
+* **`@as_js_function_text = ->`** Returns the source text of the function produced by `as_js_function()`.
+
+* **`@as_js_function = ->`** Return a parameter-less function whose return value will be equal to the triode
+  in its current state.
+
+* **`@as_js_module_text = ( name ) ->`** Returns the source text for a CommonJS module whose
+  `module.exports` is the function returned by `as_js_function()`.
+
 
