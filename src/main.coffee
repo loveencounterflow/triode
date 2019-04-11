@@ -137,7 +137,7 @@ TrieMap                   = require 'mnemonist/trie-map'
       R.push "  R = text"
       for key in @get_keys_sorted_by_length_desc()
         replacement = @get key
-        R.push "  R = R.replace( /#{CND.escape_regex key}$/, #{rpr replacement} );"
+        R.push "  R = R.replace( /^#{CND.escape_regex key}$/, #{rpr replacement} );"
       R.push "  return R; };\n"
       return R.join '\n'
     #.......................................................................................................

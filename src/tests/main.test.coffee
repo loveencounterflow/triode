@@ -187,13 +187,50 @@ TRIODE                    = require '../..'
   done()
   return null
 
+#-----------------------------------------------------------------------------------------------------------
+@[ "_ demo 2" ] = ( T, done ) ->
+  triode = TRIODE.new { sort: true, }
+  triode.set 'a',   'あ'
+  triode.set 'e',   'え'
+  triode.set 'i',   'い'
+  triode.set 'o',   'お'
+  triode.set 'u',   'う'
+  triode.set 'a=',  'ぁ'
+  triode.set 'i=',  'ぃ'
+  triode.set 'u=',  'ぅ'
+  triode.set 'e=',  'ぇ'
+  triode.set 'o=',  'ぉ'
+  debug 'µ7887-1', triode
+  debug 'µ7887-2', triode.get_keys_sorted_by_length_asc()
+  debug 'µ7887-3', triode.get_longer_keys 'a'
+  # debug 'µ7887-4', triode.get_longer_keys 'na'
+  debug 'µ7887-5', triode.superkeys_from_key 'a'
+  debug 'µ7887-6', triode.get_all_superkeys()
+  debug 'µ7887-7', triode
+  debug 'µ7887-8', triode.has 'a'
+  debug 'µ7887-9', triode.has 'a.'
+  # debug 'µ7887-10', triode.disambiguate_subkey 'v', 'v.'
+  debug 'µ7887-11', triode.get_all_superkeys()
+  debug 'µ7887-12', triode.apply_replacements_recursively 'a'
+  debug 'µ7887-11', triode.get_all_superkeys()
+  debug 'µ7887-13', triode.has_superkeys()
+  urge 'µ7887-14', '\n' + triode.replacements_as_js_module_text 'foobar/kana.wsv'
+  replacer = triode.replacements_as_js_function()
+  debug 'µ7887-15', replacer 'a'
+  debug 'µ7887-16', replacer 'i'
+  debug 'µ7887-17', triode.superkeys_from_key 'v.'
+  # debug 'µ7887-18', triode
+  done()
+  return null
+
 
 ############################################################################################################
 unless module.parent?
-  # test @
+  test @
   # test @[ "selector keypatterns" ]
   # test @[ "select 2" ]
-  test @[ "_ demo" ]
+  # test @[ "_ demo" ]
+  # test @[ "_ demo 2" ]
 
 
 
