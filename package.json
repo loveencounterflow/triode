@@ -1,6 +1,6 @@
 {
   "name": "triode",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "a JavaScript P(lain) O(ld) D(ictionary) with element access by prefixes, implemented with a trie",
   "main": "lib/main.js",
   "scripts": {
