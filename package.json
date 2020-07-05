@@ -6,7 +6,7 @@
   "scripts": {
     "build": "coffee --map -o lib -c src",
     "doctoc": "doctoc README.md",
-    "test": "npm run build && node lib/tests/main.test.js"
+    "test": "echo 'see https://github.com/loveencounterflow/hengist/tree/master/dev/triode/src'"
   },
   "repository": {
     "type": "git",
@@ -26,10 +26,9 @@
   },
   "homepage": "https://github.com/loveencounterflow/triode",
   "dependencies": {
-    "cnd": "^4.2.0",
-    "mnemonist": "^0.27.2"
+    "cnd": "^9.1.0",
+    "intertype": "^7.0.3",
+    "mnemonist": "^0.38.0"
   },
-  "devDependencies": {
-    "guy-test": "^1.4.0"
-  }
+  "devDependencies": {}
 }
