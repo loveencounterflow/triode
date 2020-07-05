@@ -12,6 +12,11 @@ echo                      = CND.echo.bind CND
 #...........................................................................................................
 { jr, }                   = CND
 TrieMap                   = require 'mnemonist/trie-map'
+types                     = new ( require 'intertype' ).Intertype()
+{ isa
+  validate
+  cast
+  type_of }               = types
 
 
 #-----------------------------------------------------------------------------------------------------------
@@ -41,13 +46,13 @@ TrieMap                   = require 'mnemonist/trie-map'
           return -1 if a[ 0 ] < b[ 0 ]
           return +1 if a[ 0 ] > b[ 0 ]
           return 0
-      else if ( CND.isa_text do_sort )
+      else if ( isa.text do_sort )
         sort_method = ( a, b ) ->
           return -1 if a[ 1 ][ do_sort ] < b[ 1 ][ do_sort ]
           return +1 if a[ 1 ][ do_sort ] > b[ 1 ][ do_sort ]
           return 0
       else
-        throw new Error "µ57633 expected a text or a boolean, got a #{CND.type_of do_sort}"
+        throw new Error "µ57633 expected a text or a boolean, got a #{type_of do_sort}"
     #.......................................................................................................
     @find = ( prefix ) ->
       R = trie.find prefix
@@ -58,8 +63,7 @@ TrieMap                   = require 'mnemonist/trie-map'
     @get_keys_sorted_by_length_desc = -> [ @keys()..., ].sort by_length_desc
     #.......................................................................................................
     @get_longer_keys = ( key ) ->
-      unless ( type = CND.type_of key  ) is 'text'
-        throw new Error "µ57954 expected a text, got a #{type}"
+      validate.text key
       if not @has key
         throw new Error "µ58275 unknown key #{rpr key}"
       R = @get_keys_sorted_by_length_asc()
@@ -68,8 +72,7 @@ TrieMap                   = require 'mnemonist/trie-map'
       return R[ idx .. ]
     #.......................................................................................................
     @superkeys_from_key = ( key ) ->
-      unless ( type = CND.type_of key  ) is 'text'
-        throw new Error "µ58596 expected a text, got a #{type}"
+      validate.text key
       if not @has key
         throw new Error "µ58917 unknown key #{rpr key}"
       return ( sp for sp in @get_longer_keys key when sp.startsWith key )
@@ -84,11 +87,8 @@ TrieMap                   = require 'mnemonist/trie-map'
     @has_superkeys = -> ( Object.keys @get_all_superkeys() ).length > 0
     #.......................................................................................................
     @disambiguate_subkey = ( old_key, new_key ) ->
-      unless ( type = CND.type_of old_key  ) is 'text'
-        throw new Error "µ59238 expected a text, got a #{type}"
-      #.....................................................................................................
-      unless ( type = CND.type_of new_key ) is 'text'
-        throw new Error "µ59559 expected a text, got a #{type}"
+      validate.text old_key
+      validate.text new_key
       #.....................................................................................................
       if ( @superkeys_from_key old_key ).length is 0
         throw new Error "µ59880 old key #{rpr old_key} is not ambiguous"
@@ -102,8 +102,7 @@ TrieMap                   = require 'mnemonist/trie-map'
       return null
     #.......................................................................................................
     @apply_replacements_recursively = ( key ) ->
-      unless ( type = CND.type_of key  ) is 'text'
-        throw new Error "µ60843 expected a text, got a #{type}"
+      validate.text key
       #.....................................................................................................
       if ( superkeys = @superkeys_from_key key ).length is 0
         throw new Error "µ61164 key #{rpr key} is not ambiguous"
